@@ -93,7 +93,7 @@ describe('fromString regex', () => {
     // Time separators
     ['T', 't', ' '].forEach((timeSep) => generateTest(`1976-11-18${timeSep}15:23`, ''));
     // Various forms of time zone
-    ['+0100[Europe/Vienna]', '+01:00[Europe/Vienna]', '-0400', '-04:00', ''].forEach((zoneString) =>
+    ['+0100[Europe/Vienna]', '+01:00[Europe/Vienna]', '+01:00[Custom/Vienna]', '-0400', '-04:00', ''].forEach((zoneString) =>
       generateTest('1976-11-18T15:23', zoneString)
     );
     // Various numbers of decimal places
@@ -117,7 +117,7 @@ describe('fromString regex', () => {
     test('1976-11-18T15', [1976, 11, 18, 15]);
     test('1976-11-18', [1976, 11, 18]);
     // Representations with calendar
-    ['', 'Z', '+01:00[Europe/Vienna]'].forEach((zoneString) =>
+    ['', 'Z', '+01:00[Europe/Vienna]', '+01:00[Custom/Vienna]'].forEach((zoneString) =>
       test(`1976-11-18T15:23:30.123456789${zoneString}[c=iso8601]`, [1976, 11, 18, 15, 23, 30, 123, 456, 789])
     );
   });
