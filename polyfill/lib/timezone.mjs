@@ -1,7 +1,7 @@
 /* global __debug__ */
 
 import { ES } from './ecmascript.mjs';
-import { GetIntrinsic, MakeIntrinsicClass } from './intrinsicclass.mjs';
+import { GetIntrinsic, MakeIntrinsicClass, DefineIntrinsic } from './intrinsicclass.mjs';
 import {
   TIMEZONE_ID,
   EPOCHNANOSECONDS,
@@ -242,7 +242,7 @@ export class TimeZone {
     return this.toString();
   }
   static from(item) {
-    if (ES.IsTemporalTimeZone(item) || (typeof item === 'object' && item)) return item;
+    if (typeof item === 'object' && item) return item;
     const timeZone = ES.TemporalTimeZoneFromString(ES.ToString(item));
     const result = new this(timeZone);
     if (!ES.IsTemporalTimeZone(result)) throw new TypeError('invalid result');
@@ -251,3 +251,7 @@ export class TimeZone {
 }
 
 MakeIntrinsicClass(TimeZone, 'Temporal.TimeZone');
+DefineIntrinsic('Temporal.TimeZone.from', TimeZone.from);
+DefineIntrinsic('Temporal.TimeZone.prototype.getDateTimeFor', TimeZone.prototype.getDateTimeFor);
+DefineIntrinsic('Temporal.TimeZone.prototype.getOffsetStringFor', TimeZone.prototype.getOffsetStringFor);
+DefineIntrinsic('Temporal.TimeZone.prototype.toString', TimeZone.prototype.toString);
