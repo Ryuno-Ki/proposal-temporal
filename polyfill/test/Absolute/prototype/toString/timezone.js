@@ -37,8 +37,9 @@ const timeZone = new Proxy({
     };
   },
 
-  getOffsetStringFor() {
+  getOffsetStringFor(absoluteArg) {
     actual.push("call timeZone.getOffsetStringFor");
+    assert.sameValue(absoluteArg, absolute);
     return {
       get toString() {
         actual.push("get offset.toString");
@@ -50,8 +51,9 @@ const timeZone = new Proxy({
     };
   },
 
-  getDateTimeFor() {
+  getDateTimeFor(absoluteArg) {
     actual.push("call timeZone.getDateTimeFor");
+    assert.sameValue(absoluteArg, absolute);
     return Temporal.DateTime.from("1963-07-02T12:00:00.987654321");
   },
 }, {
