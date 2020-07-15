@@ -14,6 +14,8 @@ const expected = [
   "call timeZone.getPossibleAbsolutesFor",
 ];
 
+const dateTimeString = "1975-02-02T14:25:36.123456789";
+
 const timeZone = new Proxy({
   name: "Custom/TimeZone",
 
@@ -48,8 +50,9 @@ const timeZone = new Proxy({
     return Temporal.DateTime.from("1963-07-02T12:00:00.987654321");
   },
 
-  getPossibleAbsolutesFor() {
+  getPossibleAbsolutesFor(dateTimeArg) {
     actual.push("call timeZone.getPossibleAbsolutesFor");
+    assert.sameValue(dateTimeArg.toString(), dateTimeString);
     return [Temporal.Absolute.fromEpochMilliseconds(-205156799345)];
   },
 }, {
@@ -74,7 +77,7 @@ Object.defineProperty(Temporal.TimeZone, "from", {
   },
 });
 
-const absolute = Temporal.Absolute.from("1975-02-02T14:25:36.123456+01:00[Custom/TimeZone]");
+const absolute = Temporal.Absolute.from(dateTimeString + "+01:00[Custom/TimeZone]");
 assert.sameValue(absolute.getEpochMilliseconds(), -205156799345);
 
 assert.compareArray(actual, expected);
